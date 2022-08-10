@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
 - Студент: [Kamilla Artikova](https://up.htmlacademy.ru/ecmascript/18/user/2020889).
-- Наставник: `Alex Elkin`.
+- Наставник: [Alex Elkin](https://htmlacademy.ru/profile/alex_elkin).
 
 ---
 
