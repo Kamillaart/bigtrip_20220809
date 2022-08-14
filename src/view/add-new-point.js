@@ -96,7 +96,7 @@ const createNewPointTemplate = () => (
       </header>`
 );
 
-export default class NewAddingNewPointView {
+export default class AddingNewPointView {
   getTemplate() {
     return createNewPointTemplate();
   }

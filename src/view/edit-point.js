@@ -159,7 +159,7 @@ const editPointTemplate = () => (
 </li>`
 );
 
-export default class NewEditPointView {
+export default class EditingEventPointView {
   getTemplate() {
     return editPointTemplate();
   }

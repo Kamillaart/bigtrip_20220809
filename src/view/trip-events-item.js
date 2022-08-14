@@ -40,7 +40,7 @@ const createTripEventsItemTemplate = () => (
 </li>`
 );
 
-export default class NewTripEventsItemView {
+export default class TripEventPointView {
   getTemplate() {
     return createTripEventsItemTemplate();
   }
