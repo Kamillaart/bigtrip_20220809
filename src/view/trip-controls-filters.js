@@ -21,7 +21,7 @@ const createTripControlsFilterTemplate = () => (
 </form>`
 );
 
-export default class NewTripControlsFilterView {
+export default class TripControlsFilterView {
   getTemplate() {
     return createTripControlsFilterTemplate();
   }

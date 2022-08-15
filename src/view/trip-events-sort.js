@@ -29,7 +29,7 @@ const createTripEventSortTemplate = () => (
 </form>`
 );
 
-export default class NewTripEventSortView {
+export default class TripEventSortView {
   getTemplate() {
     return createTripEventSortTemplate();
   }

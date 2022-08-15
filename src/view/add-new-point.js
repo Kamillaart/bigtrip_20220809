@@ -1,7 +1,7 @@
 import {createElement} from '../render.js';
 
 const createNewPointTemplate = () => (
-  `  <li class="trip-events__item">
+  `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -93,7 +93,9 @@ const createNewPointTemplate = () => (
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Cancel</button>
-      </header>`
+      </header>
+    </form>
+  </li>`
 );
 
 export default class AddingNewPointView {

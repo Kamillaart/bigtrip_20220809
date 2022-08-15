@@ -14,7 +14,7 @@ const createTripMainTemplate = () => (
 </section>`
 );
 
-export default class NewTripMainView {
+export default class TripMainView {
   getTemplate() {
     return createTripMainTemplate();
   }
