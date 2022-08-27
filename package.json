@@ -30,6 +30,7 @@
     "node": "16"
   },
   "dependencies": {
+    "dayjs": "^1.11.5",
     "webpack-cli": "4.10.0"
   }
 }

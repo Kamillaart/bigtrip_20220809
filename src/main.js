@@ -3,6 +3,7 @@ import TripMainView from './view/trip-main.js';
 import TripControlsFilterView from './view/trip-controls-filters.js';
 import TripEventSortView from './view/trip-events-sort.js';
 import {render, RenderPosition} from './render.js';
+import TripPointsModel from './model/tasks-model.js';
 
 const tripMain = document.querySelector('.trip-main');
 const tripControlsDiv = document.querySelector('.trip-controls__filters');
@@ -14,6 +15,7 @@ render(new TripControlsFilterView(), tripControlsDiv);
 
 render(new TripEventSortView(), tripEventsSection);
 
+const tasksModel = new TripPointsModel();
 const eventsListPresenter = new EventsListPresenter();
 
-eventsListPresenter.init(tripEventsSection);
+eventsListPresenter.init(tripEventsSection, tasksModel);
