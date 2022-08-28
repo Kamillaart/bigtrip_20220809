@@ -29,7 +29,6 @@ const createTripEventsItemTemplate = (pointObject) => {
 
   const finishDate = dayjs(dateToTimeInDays);
   const dateDifference = finishDate.diff(dateFromTimeInDays, 'm');
-  console.log(dateDifference);
 
   //Дата в D MMMdddM
   const date = dateFrom !== null

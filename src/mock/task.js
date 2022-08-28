@@ -1,49 +1,47 @@
-import {getRandomInteger} from '../utils.js';
+import dayjs from 'dayjs';
+import {getRandomInteger, getRandomIndex} from '../utils.js';
+import {
+  POINT_TYPES,
+  MIN_PRICE,
+  MAX_PRICE,
+  OFFER_TITLES,
+  DESTINATION_NAMES,
+  DESTINATION_DESCRIPTIONS,
+  MAX_MINUTES_FROM,
+  MAX_MINUTES_TO,
+} from './consts.js';
 
-const generateOffersByType = () => {
-  const types = [
-    'taxi',
-    'bus',
-    'train',
-    'ship',
-    'drive',
-    'flight',
-    'check-in',
-    'sightseeing',
-    'restaurant',
-  ];
+const generateOffersByType = () => getRandomIndex(POINT_TYPES);
 
-  const randomIndex = getRandomInteger(0, types.length - 1);
-
-  return types[randomIndex];
-};
 const offer = {
-  id: 1,
-  title: 'Upgrade to a business class',
-  price: 120
+  id: getRandomInteger(1, 10).toString(),
+  title: getRandomIndex(OFFER_TITLES),
+  price: getRandomInteger(MIN_PRICE, MAX_PRICE)
 };
 
 export const destination = {
-  id: 1,
-  description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-  name: 'Chamonix',
+  id: offer.id,
+  description: getRandomIndex(DESTINATION_DESCRIPTIONS),
+  name: getRandomIndex(DESTINATION_NAMES),
   pictures: [
     {
-      'src': 'http://picsum.photos/300/200?r=0.0762563005163317',
-      'description': 'Chamonix parliament building'
+      src: `http://picsum.photos/300/200?r=${Math.random()}`,
+      description: getRandomIndex(DESTINATION_DESCRIPTIONS),
     }
   ]
 };
 
+const generateDate = (to, from) => dayjs().add(getRandomInteger(to, from), 'minute').toISOString();
+
 export const generateTripPoint = () => ({
   point: {
-    basePrice: 1100,
-    dateFrom: '2019-07-14T17:55:56.845Z',
-    dateTo: '2019-07-14T18:05:13.375Z',
+    basePrice: getRandomInteger(MIN_PRICE, MAX_PRICE),
+    dateFrom: generateDate(0, MAX_MINUTES_FROM),
+    dateTo: generateDate(MAX_MINUTES_FROM, MAX_MINUTES_TO),
     destination: destination.name,
-    id: '0',
+    id: destination.id,
     isFavorite: false,
-    offers: Array.of(offer.title),
+    offers: OFFER_TITLES.slice(0, getRandomInteger(0, OFFER_TITLES.length - 1)),
     type: generateOffersByType(),
   },
 });
