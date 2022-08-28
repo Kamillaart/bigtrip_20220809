@@ -1,55 +1,33 @@
-import dayjs from 'dayjs';
 import {createElement} from '../render.js';
-import {humanizeTaskDueDate, humanizeTaskDueTime, humanizeTaskDueTimeInDays, humanizeTask} from '../utils.js';
+import {
+  getTransformationDateEvent,
+  getTransformationDateEventForUI,
+  getTransformationDate,
+  getTransformationTime,
+  getTransformationDuration
+} from '../utils.js';
 
 const createTripEventsItemTemplate = (pointObject) => {
   const {point} = pointObject;
-  const {basePrice, dateFrom, dateTo, destination, offers, type} = point;
+  const {basePrice, isFavorite, dateFrom, dateTo, destination, offers, type} = point;
 
-  //Дата в D MMMM
-  const dateFromMonth = dateFrom !== null
-    ? humanizeTaskDueDate(dateFrom)
-    : '';
-
-  //Дата в YYYY-MM-DD
-  const dateFromTimeInDays = dateFrom !== null
-    ? humanizeTaskDueTime(dateFrom)
-    : '';
-  const dateToTimeInDays = dateTo !== null
-    ? humanizeTaskDueTime(dateTo)
-    : '';
-
-  //Дата в h:m
-  const dateFromTime = dateFrom !== null
-    ? humanizeTaskDueTimeInDays(dateFrom)
-    : '';
-  const dateToTime = dateTo !== null
-    ? humanizeTaskDueTimeInDays(dateTo)
-    : '';
-
-  const finishDate = dayjs(dateToTimeInDays);
-  const dateDifference = finishDate.diff(dateFromTimeInDays, 'm');
-
-  //Дата в D MMMdddM
-  const date = dateFrom !== null
-    ? humanizeTask(dateDifference)
-    : '';
+  const isFavoriteOffer = () => isFavorite ? 'event__favorite-btn--active' : '';
 
   return(
     `<li class="trip-events__item">
   <div class="event">
-    <time class="event__date" datetime="2019-03-18">${dateFromMonth}</time>
+    <time class="event__date" datetime=${getTransformationDateEvent(dateFrom)}>${getTransformationDateEventForUI(dateFrom)}</time>
     <div class="event__type">
-      <img class="event__type-icon" width="42" height="42" src="img/icons/${type.toLowerCase()}.png" alt="Event type icon">
+      <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
     <h3 class="event__title">${type} ${destination}</h3>
     <div class="event__schedule">
       <p class="event__time">
-        <time class="event__start-time" datetime="2019-03-18T10:30">${dateFromTime}</time>
+        <time class="event__start-time" datetime=${getTransformationDate(dateFrom)}>${getTransformationTime(dateFrom)}</time>
         &mdash;
-        <time class="event__end-time" datetime="2019-03-18T11:00">${dateToTime}</time>
+        <time class="event__end-time" datetime=${getTransformationDate(dateTo)}>${getTransformationTime(dateTo)}</time>
       </p>
-      <p class="event__duration">${date}</p>
+      <p class="event__duration">${getTransformationDuration(dateTo, dateFrom)}</p>
     </div>
     <p class="event__price">
       &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
@@ -62,7 +40,7 @@ const createTripEventsItemTemplate = (pointObject) => {
         <span class="event__offer-price">${basePrice}</span>
       </li>
     </ul>
-    <button class="event__favorite-btn event__favorite-btn--active" type="button">
+    <button class="event__favorite-btn ${isFavoriteOffer()} type="button">
       <span class="visually-hidden">Add to favorite</span>
       <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
         <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>

@@ -1,7 +1,7 @@
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
-const MIN_PRICE = 0;
-const MAX_PRICE = 1000;
+const MIN_PRICE = 100;
+const MAX_PRICE = 10000;
 const MAX_MINUTES_FROM = 500;
 const MAX_MINUTES_TO = 2000;
 
@@ -18,18 +18,18 @@ const POINT_TYPES = [
 ];
 
 const OFFER_TITLES = [
-  'Switch to comfort',
-  'Order Uber',
-  'Book tickets',
-  'Lunch in city',
-  'Upgrade to a business class'
+  ' Switch to VIP',
+  ' Switch to Premium',
+  ' Have a lunch',
+  ' Extra luggage',
+  ' Pick up at the station'
 ];
 
 const DESTINATION_NAMES = [
-  'Geneva',
-  'Chamonix',
-  'Amsterdam',
-  'Berlin',
+  'Tokyo',
+  'Seoul',
+  'Moscow',
+  'London',
   'Paris'
 ];
 
