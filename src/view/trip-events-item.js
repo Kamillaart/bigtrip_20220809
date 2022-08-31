@@ -53,7 +53,7 @@ const createTripEventsItemTemplate = (pointObject) => {
 </li>`
   );
 };
-export default class TripEventPointView {
+export default class TripEventsView {
   constructor(point) {
     this.point = point;
   }

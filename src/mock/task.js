@@ -13,7 +13,7 @@ import {
 
 const generateOffersByType = () => getRandomIndex(POINT_TYPES);
 
-const offer = {
+export const offer = {
   id: getRandomInteger(1, 10).toString(),
   title: getRandomIndex(OFFER_TITLES),
   price: getRandomInteger(MIN_PRICE, MAX_PRICE)

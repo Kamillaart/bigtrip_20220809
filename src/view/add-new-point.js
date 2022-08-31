@@ -98,7 +98,7 @@ const createNewPointTemplate = () => (
   </li>`
 );
 
-export default class AddingNewPointView {
+export default class AddNewPointView {
   getTemplate() {
     return createNewPointTemplate();
   }
