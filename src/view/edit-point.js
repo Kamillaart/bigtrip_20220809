@@ -11,19 +11,18 @@ import {
 import {offer, destination} from '../mock/task.js';
 
 const createTripEventsItemTemplate = (pointObject) => {
-  const {point} = pointObject;
-  const {dateFrom, dateTo, type, basePrice, offers} = point;
+  const {date_from, date_to, type, base_price, offers} = pointObject.point;
 
   const isTypeChecked = (checkedType, currentType) => currentType === checkedType ? 'checked' : '';
 
   const createTypeEditTemplate = (checkedType) => POINT_TYPES.map((currentType) =>
     `<div class="event__type-item">
       <input id="event-type-${currentType}-${POINT_TYPES.indexOf(currentType)}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${currentType}" ${isTypeChecked(checkedType, currentType)}>
-      <label class="event__type-label  event__type-label--${currentType}" for="event-type-${currentType}-1">${currentType}</label>
+      <label class="event__type-label  event__type-label--${currentType}" for="event-type-${currentType}-1">${currentType[0].toUpperCase() + currentType.slice(1)}</label>
     </div>`).join('');
 
 
-  const isOfferChecked = () => offers.includes(offer.id) ? 'checked' : '';
+  const isOfferChecked = (offer1) => offers.includes(offer1.id) ? 'checked' : '';
 
   const createOfferEditTemplate = () => OFFER_TITLES.map(() =>
     `<div class="event__offer-selector">
@@ -64,17 +63,17 @@ const createTripEventsItemTemplate = (pointObject) => {
           </div>
           <div class="event__field-group  event__field-group--time">
             <label class="visually-hidden" for="event-start-time-1">From</label>
-            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${getTransformationDateInEditForm(dateFrom)}">
+            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${getTransformationDateInEditForm(date_from)}">
             &mdash;
             <label class="visually-hidden" for="event-end-time-1">To</label>
-            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${getTransformationDateInEditForm(dateTo)}">
+            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${getTransformationDateInEditForm(date_to)}">
           </div>
           <div class="event__field-group  event__field-group--price">
             <label class="event__label" for="event-price-1">
               <span class="visually-hidden">Price</span>
               &euro;
             </label>
-            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${base_price}">
           </div>
           <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
           <button class="event__reset-btn" type="reset">Delete</button>

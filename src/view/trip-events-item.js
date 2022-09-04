@@ -8,36 +8,35 @@ import {
 } from '../utils.js';
 
 const createTripEventsItemTemplate = (pointObject) => {
-  const {point} = pointObject;
-  const {basePrice, isFavorite, dateFrom, dateTo, destination, offers, type} = point;
+  const {base_price, is_favorite, date_from, date_to, destination, offers, type} = pointObject.point;
 
-  const isFavoriteOffer = () => isFavorite ? 'event__favorite-btn--active' : '';
+  const isFavoriteOffer = () => is_favorite ? 'event__favorite-btn--active' : '';
 
   return(
     `<li class="trip-events__item">
   <div class="event">
-    <time class="event__date" datetime=${getTransformationDateEvent(dateFrom)}>${getTransformationDateEventForUI(dateFrom)}</time>
+    <time class="event__date" datetime=${getTransformationDateEvent(date_from)}>${getTransformationDateEventForUI(date_from)}</time>
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
     <h3 class="event__title">${type} ${destination}</h3>
     <div class="event__schedule">
       <p class="event__time">
-        <time class="event__start-time" datetime=${getTransformationDate(dateFrom)}>${getTransformationTime(dateFrom)}</time>
+        <time class="event__start-time" datetime=${getTransformationDate(date_from)}>${getTransformationTime(date_from)}</time>
         &mdash;
-        <time class="event__end-time" datetime=${getTransformationDate(dateTo)}>${getTransformationTime(dateTo)}</time>
+        <time class="event__end-time" datetime=${getTransformationDate(date_to)}>${getTransformationTime(date_to)}</time>
       </p>
-      <p class="event__duration">${getTransformationDuration(dateTo, dateFrom)}</p>
+      <p class="event__duration">${getTransformationDuration(date_to, date_from)}</p>
     </div>
     <p class="event__price">
-      &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
+      &euro;&nbsp;<span class="event__price-value">${base_price}</span>
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
       <li class="event__offer"> 
         <span class="event__offer-title">${offers}</span>
         &plus;&euro;&nbsp;
-        <span class="event__offer-price">${basePrice}</span>
+        <span class="event__offer-price">${base_price}</span>
       </li>
     </ul>
     <button class="event__favorite-btn ${isFavoriteOffer()} type="button">
