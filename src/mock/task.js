@@ -34,15 +34,13 @@ export const destination = {
 const generateDate = (to, from) => dayjs().add(getRandomInteger(to, from), 'minute').toISOString();
 
 export const generateTripPoint = () => ({
-  point: {
-    'base_price': getRandomInteger(MIN_PRICE, MAX_PRICE),
-    'date_from': generateDate(0, MAX_MINUTES_FROM),
-    'date_to': generateDate(MAX_MINUTES_FROM, MAX_MINUTES_TO),
-    'destination': getRandomIndex(DESTINATION_NAMES),
-    'id': getRandomInteger(1, 10).toString(),
-    'is_favorite': Boolean(getRandomInteger(0, 1)),
-    'offers': offer.id,
-    'type': generateOffersByType(),
-  },
+  'base_price': getRandomInteger(MIN_PRICE, MAX_PRICE),
+  'date_from': generateDate(0, MAX_MINUTES_FROM),
+  'date_to': generateDate(MAX_MINUTES_FROM, MAX_MINUTES_TO),
+  'destination': getRandomIndex(DESTINATION_NAMES),
+  'id': getRandomInteger(1, 10).toString(),
+  'is_favorite': Boolean(getRandomInteger(0, 1)),
+  'offers': offer.id,
+  'type': generateOffersByType(),
 });
 
