@@ -1,20 +1,21 @@
-import EventsListPresenter from './presenter/board-presenter.js';
-import NewTripMainView from './view/trip-main.js';
-import NewTripControlsFilterView from './view/trip-controls-filters.js';
-import NewTripEventSortView from './view/trip-events-sort.js';
-import {renderAfterBegin, renderBeforeEnd} from './render.js';
+import EventsListPresenter from './presenter/events-list-presenter.js';
+import TripMainView from './view/trip-main.js';
+import TripControlsFilterView from './view/trip-controls-filters.js';
+import TripEventSortView from './view/trip-events-sort.js';
+import {render, RenderPosition} from './render.js';
+import TripPointsModel from './model/tasks-model.js';
 
 const tripMain = document.querySelector('.trip-main');
-const tripEventsElement = document.querySelector('.trip-events');
 const tripControlsDiv = document.querySelector('.trip-controls__filters');
 const tripEventsSection = document.querySelector('.trip-events');
 
-renderAfterBegin(new NewTripMainView(), tripMain);
+render(new TripMainView(), tripMain, RenderPosition.AFTERBEGIN);
 
-renderBeforeEnd(new NewTripControlsFilterView(), tripControlsDiv);
+render(new TripControlsFilterView(), tripControlsDiv);
 
-renderBeforeEnd(new NewTripEventSortView(), tripEventsSection);
+render(new TripEventSortView(), tripEventsSection);
 
+const tasksModel = new TripPointsModel();
 const eventsListPresenter = new EventsListPresenter();
 
-eventsListPresenter.init(tripEventsElement);
+eventsListPresenter.init(tripEventsSection, tasksModel);

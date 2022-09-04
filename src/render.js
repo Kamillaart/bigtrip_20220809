@@ -12,12 +12,9 @@ const createElement = (template) => {
   return newElement.firstElementChild;
 };
 
-const renderAfterBegin = (component, container, place = RenderPosition.AFTERBEGIN) => {
-  container.insertAdjacentElement(place, component.getElement());
-};
-const renderBeforeEnd = (component, container, place = RenderPosition.BEFOREEND) => {
+const render = (component, container, place = RenderPosition.BEFOREEND) => {
   container.insertAdjacentElement(place, component.getElement());
 };
 
-export {RenderPosition, createElement, renderAfterBegin, renderBeforeEnd};
+export {RenderPosition, createElement, render};
 
