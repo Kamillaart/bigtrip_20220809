@@ -13,11 +13,14 @@ import {
 
 const generateOffersByType = () => getRandomIndex(POINT_TYPES);
 
-export const offer = {
-  id: getRandomInteger(1, 10),
-  title: getRandomIndex(OFFER_TITLES),
+const getOffer = (index, title) => ({
+  id: index + 1,
+  title: title,
   price: getRandomInteger(MIN_PRICE, MAX_PRICE)
-};
+});
+
+export const allOffers = Array.from({ length: OFFER_TITLES.length }, (_, index) =>
+  getOffer(index, OFFER_TITLES[index]));
 
 export const destination = {
   id: getRandomInteger(1, 10),
@@ -40,7 +43,7 @@ export const generateTripPoint = () => ({
   'destination': getRandomIndex(DESTINATION_NAMES),
   'id': getRandomInteger(1, 10).toString(),
   'is_favorite': Boolean(getRandomInteger(0, 1)),
-  'offers': offer.id,
+  'offers': [1, 2, 3, 4, 5].slice(0, getRandomInteger(0, OFFER_TITLES.length)),
   'type': generateOffersByType(),
 });
 

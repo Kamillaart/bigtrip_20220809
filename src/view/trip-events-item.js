@@ -1,4 +1,5 @@
 import {createElement} from '../render.js';
+import {allOffers, destination} from '../mock/task.js';
 import {
   getTransformationDateEvent,
   getTransformationDateEventForUI,
@@ -8,36 +9,49 @@ import {
 } from '../utils.js';
 
 const createTripEventsItemTemplate = (pointObject) => {
-  const {base_price, is_favorite, date_from, date_to, destination, offers, type} = pointObject.point;
+  const {
+    base_price: basePrice,
+    is_favorite: isFavorite,
+    date_from: dateFrom,
+    date_to: dateTo,
+    type,
+    offers
+  } = pointObject;
 
-  const isFavoriteOffer = () => is_favorite ? 'event__favorite-btn--active' : '';
+  const isFavoriteOffer = () => isFavorite ? 'event__favorite-btn--active' : '';
+
+  const checkedOffers = allOffers.slice(0, offers[offers.length - 1] ? offers[offers.length - 1] : '');
+
+  const createOffersTemplate = () => checkedOffers.map((offer) =>
+    `<li class="event__offer">
+        <span class="event__offer-title">${offer.title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${offer.price}</span>
+      </li>`
+  ).join('');
 
   return(
     `<li class="trip-events__item">
   <div class="event">
-    <time class="event__date" datetime=${getTransformationDateEvent(date_from)}>${getTransformationDateEventForUI(date_from)}</time>
+    <time class="event__date" datetime=${getTransformationDateEvent(dateFrom)}>${getTransformationDateEventForUI(dateFrom)}</time>
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">${type} ${destination}</h3>
+    <h3 class="event__title">${type} ${destination.name}</h3>
     <div class="event__schedule">
       <p class="event__time">
-        <time class="event__start-time" datetime=${getTransformationDate(date_from)}>${getTransformationTime(date_from)}</time>
+        <time class="event__start-time" datetime=${getTransformationDate(dateFrom)}>${getTransformationTime(dateFrom)}</time>
         &mdash;
-        <time class="event__end-time" datetime=${getTransformationDate(date_to)}>${getTransformationTime(date_to)}</time>
+        <time class="event__end-time" datetime=${getTransformationDate(dateTo)}>${getTransformationTime(dateTo)}</time>
       </p>
-      <p class="event__duration">${getTransformationDuration(date_to, date_from)}</p>
+      <p class="event__duration">${getTransformationDuration(dateTo, dateFrom)}</p>
     </div>
     <p class="event__price">
-      &euro;&nbsp;<span class="event__price-value">${base_price}</span>
+      &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-      <li class="event__offer"> 
-        <span class="event__offer-title">${offers}</span>
-        &plus;&euro;&nbsp;
-        <span class="event__offer-price">${base_price}</span>
-      </li>
+     ${createOffersTemplate()}
     </ul>
     <button class="event__favorite-btn ${isFavoriteOffer()} type="button">
       <span class="visually-hidden">Add to favorite</span>

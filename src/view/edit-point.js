@@ -5,7 +5,7 @@ import {
 import {
   getTransformationDateInEditForm
 } from '../utils.js';
-import {destination} from '../mock/task.js';
+import {destination, allOffers} from '../mock/task.js';
 
 const createTripEventsItemTemplate = (pointObject) => {
   const {
@@ -13,32 +13,30 @@ const createTripEventsItemTemplate = (pointObject) => {
     date_to: dateTo,
     type,
     base_price: basePrice,
-    offers} = pointObject;
+    offers
+  } = pointObject;
 
   const isTypeChecked = (checkedType, currentType) => currentType === checkedType ? 'checked' : '';
 
   const createTypeEditTemplate = (checkedType) => POINT_TYPES.map((currentType) =>
     `<div class="event__type-item">
       <input id="event-type-${currentType}-${POINT_TYPES.indexOf(currentType)}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${currentType}" ${isTypeChecked(checkedType, currentType)}>
-      <label class="event__type-label  event__type-label--${currentType}" for="event-type-${currentType}-1">${currentType[0].toUpperCase() + currentType.slice(1)}</label>
+      <label class="event__type-label  event__type-label--${currentType}" for="event-type-${currentType}-${POINT_TYPES.indexOf(currentType)}">${currentType[0].toUpperCase() + currentType.slice(1)}</label>
     </div>`).join('');
 
 
   const isOfferChecked = (offer) => offers.includes(offer.id) ? 'checked' : '';
 
-  const createOfferEditTemplate = () => {
-    const offerType = offers.find((offer) => offer.type === type);
-
-    return offerType.offers.map((offer) =>
-      `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${isOfferChecked(offer)}>
-    <label class="event__offer-label" for="event-offer-luggage-1">
+  const createOfferEditTemplate = () => allOffers.map((offer) =>
+    `<div class="event__offer-selector">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${offer.id}" type="checkbox" name="event-offer-luggage" ${isOfferChecked(offer)}>
+    <label class="event__offer-label" for="event-offer-luggage-${offer.id}">
     <span class="event__offer-title">${offer.title}</span>
     &plus;&euro;&nbsp;
     <span class="event__offer-price">${offer.price}</span>
     </label>
     </div>`
-    );};
+  ).join('');
 
   return (
     `<form class="event event--edit" action="#" method="post">
