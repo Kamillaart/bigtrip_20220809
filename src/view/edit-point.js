@@ -8,7 +8,7 @@ import {
   getRandomInteger,
   getTransformationDateInEditForm
 } from '../utils.js';
-import {offer, destination} from '../mock/task.js';
+import {destination} from '../mock/task.js';
 
 const createTripEventsItemTemplate = (pointObject) => {
   const {date_from, date_to, type, base_price, offers} = pointObject.point;
@@ -22,17 +22,20 @@ const createTripEventsItemTemplate = (pointObject) => {
     </div>`).join('');
 
 
-  const isOfferChecked = (offer1) => offers.includes(offer1.id) ? 'checked' : '';
+  const isOfferChecked = (offer) => offers.includes(offer.id) ? 'checked' : '';
 
-  const createOfferEditTemplate = () => OFFER_TITLES.map(() =>
-    `<div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${isOfferChecked(offer)}>
-        <label class="event__offer-label" for="event-offer-luggage-1">
-          <span class="event__offer-title">${OFFER_TITLES[getRandomInteger(0, OFFER_TITLES.length - 1)]}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${getRandomInteger(MIN_PRICE, MAX_PRICE)}</span>
-        </label>
-      </div>`).join('');
+  const createOfferEditTemplate = () => {
+    const offerType = offers.find((offer) => offer.type === type);
+    return offerType.offers.map((offer) =>
+      `<div class="event__offer-selector">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${isOfferChecked(offer)}>
+    <label class="event__offer-label" for="event-offer-luggage-1">
+    <span class="event__offer-title">${offer.title}</span>
+    &plus;&euro;&nbsp;
+    <span class="event__offer-price">${offer.price}</span>
+    </label>
+    </div>`
+    );};
 
   return (
     `<form class="event event--edit" action="#" method="post">
