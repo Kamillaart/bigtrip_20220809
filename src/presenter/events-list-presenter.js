@@ -5,20 +5,25 @@ import EditPointView from '../view/edit-point.js';
 import {render} from '../render.js';
 
 export default class EventsListPresenter {
-  tripListComponent = new TripListView();
+  #boardContainer = null;
+  #tasksModel = null;
+
+  #tripListComponent = new TripListView();
+
+  #boardTasks = [];
 
   init = (boardContainer, tasksModel) => {
-    this.boardContainer = boardContainer;
-    this.tasksModel = tasksModel;
-    this.boardTasks = [...this.tasksModel.getTasks()];
+    this.#boardContainer = boardContainer;
+    this.#tasksModel = tasksModel;
+    this.#boardTasks = [...this.#tasksModel.tasks];
 
-    render(this.tripListComponent, this.boardContainer);
-    render(new EditPointView(this.boardTasks[0]), this.tripListComponent.getElement());
-    render(new AddNewPointView(), this.tripListComponent.getElement());
+    render(this.#tripListComponent, this.#boardContainer);
+    render(new EditPointView(this.#boardTasks[0]), this.#tripListComponent.element);
+    render(new AddNewPointView(), this.#tripListComponent.element);
 
-    for (let i = 0; i < this.boardTasks.length; i++) {
-      render(new TripEventsView(this.boardTasks[i]),
-        this.tripListComponent.getElement());
+    for (let i = 0; i < this.#boardTasks.length; i++) {
+      render(new TripEventsView(this.#boardTasks[i]),
+        this.#tripListComponent.element);
     }
   };
 }
