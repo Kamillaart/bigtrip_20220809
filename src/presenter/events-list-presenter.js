@@ -1,29 +1,65 @@
 import TripListView from '../view/trip-event-view';
-import AddNewPointView from '../view/add-new-point.js';
 import TripEventsView from '../view/trip-events-item.js';
 import EditPointView from '../view/edit-point.js';
 import {render} from '../render.js';
 
+const isPressEscape = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 export default class EventsListPresenter {
-  #boardContainer = null;
-  #tasksModel = null;
-
   #tripListComponent = new TripListView();
 
-  #boardTasks = [];
+  #tripListContainer = null;
+  #eventPointsModel = null;
 
-  init = (boardContainer, tasksModel) => {
-    this.#boardContainer = boardContainer;
-    this.#tasksModel = tasksModel;
-    this.#boardTasks = [...this.#tasksModel.tasks];
+  #eventPointsList = [];
 
-    render(this.#tripListComponent, this.#boardContainer);
-    render(new EditPointView(this.#boardTasks[0]), this.#tripListComponent.element);
-    render(new AddNewPointView(), this.#tripListComponent.element);
+  init = (tripListContainer, eventPointsModel) => {
+    this.#tripListContainer = tripListContainer;
+    this.#eventPointsModel = eventPointsModel;
 
-    for (let i = 0; i < this.#boardTasks.length; i++) {
-      render(new TripEventsView(this.#boardTasks[i]),
-        this.#tripListComponent.element);
-    }
+    this.#eventPointsList = [...this.#eventPointsModel.tripPoints];
+
+    render(this.#tripListComponent, this.#tripListContainer);
+    this.#eventPointsList.forEach((event) => {
+      this.#renderEventPoints(event);
+    });
+  };
+
+  #renderEventPoints = (eventPoints) => {
+    const formEditComponent = new EditPointView(eventPoints);
+    const eventPointComponent = new TripEventsView(eventPoints);
+
+    const replaceEventPointsListToEditForm = () => this.#tripListComponent.element
+      .replaceChild(formEditComponent.element, eventPointComponent.element);
+
+    const replaceEditFormToEventPointsList = () => this.#tripListComponent.element
+      .replaceChild(eventPointComponent.element, formEditComponent.element);
+
+    const onEscKeyDown = (evt) => {
+      if (isPressEscape(evt)) {
+        evt.preventDefault();
+        replaceEditFormToEventPointsList();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+
+    const onOpenFormEdit = (evt) => {
+      evt.preventDefault();
+      replaceEventPointsListToEditForm();
+      document.addEventListener('keydown', onEscKeyDown);
+    };
+
+    const onCloseFormEdit = (evt) => {
+      evt.preventDefault();
+      replaceEditFormToEventPointsList();
+      document.addEventListener('keydown', onEscKeyDown);
+    };
+
+    eventPointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', onOpenFormEdit);
+
+    formEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', onCloseFormEdit);
+
+    formEditComponent.element.addEventListener('submit', onCloseFormEdit);
+
+    render(eventPointComponent, this.#tripListComponent.element);
   };
 }
