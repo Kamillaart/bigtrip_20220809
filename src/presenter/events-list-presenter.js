@@ -1,6 +1,7 @@
 import TripListView from '../view/trip-event-view';
 import TripEventsView from '../view/trip-events-item.js';
 import EditPointView from '../view/edit-point.js';
+import NoEventPointView from '../view/trip-events-message-view.js';
 import {render} from '../render.js';
 
 const isPressEscape = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
@@ -17,6 +18,7 @@ export default class EventsListPresenter {
     this.#eventPointsModel = eventPointsModel;
 
     this.#eventPointsList = [...this.#eventPointsModel.tripPoints];
+    this.#renderEventPointList();
 
     render(this.#tripListComponent, this.#tripListContainer);
     this.#eventPointsList.forEach((event) => {
@@ -61,5 +63,15 @@ export default class EventsListPresenter {
     formEditComponent.element.addEventListener('submit', onCloseFormEdit);
 
     render(eventPointComponent, this.#tripListComponent.element);
+  };
+
+  #renderEventPointList = () => {
+    render(this.#tripListComponent, this.#tripListContainer);
+
+    if (this.#eventPointsList.length === 0) {
+      render(new NoEventPointView(), this.#tripListComponent.element);
+    } else {
+      this.#eventPointsList.forEach((event) => this.#renderEventPoints(event));
+    }
   };
 }
