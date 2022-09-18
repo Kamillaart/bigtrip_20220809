@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import {allOffers, destination} from '../mock/task.js';
 import {
   getTransformationDateEvent,
@@ -66,11 +66,12 @@ const createTripEventsItemTemplate = (pointObject) => {
 </li>`
   );
 };
-export default class TripEventsView {
-  #element = null;
+export default class TripEventsView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
+
     this.#point = point;
   }
 
@@ -78,15 +79,13 @@ export default class TripEventsView {
     return createTripEventsItemTemplate(this.#point);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setOpenFormClickHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#openFormClickHandler);
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #openFormClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
+  };
 }

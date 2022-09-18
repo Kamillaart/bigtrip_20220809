@@ -2,7 +2,7 @@ import EventsListPresenter from './presenter/events-list-presenter.js';
 import TripMainView from './view/trip-main.js';
 import TripControlsFilterView from './view/trip-controls-filters.js';
 import TripEventSortView from './view/trip-events-sort.js';
-import {render, RenderPosition} from './render.js';
+import {render, RenderPosition} from './framework/render.js';
 import TripPointsModel from './model/tasks-model.js';
 
 const tripMain = document.querySelector('.trip-main');

@@ -2,8 +2,7 @@ import TripListView from '../view/trip-event-view';
 import TripEventsView from '../view/trip-events-item.js';
 import EditPointView from '../view/edit-point.js';
 import NoEventPointView from '../view/trip-events-message-view.js';
-import {render} from '../render.js';
-
+import {render} from '../framework/render.js';
 const isPressEscape = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 export default class EventsListPresenter {
   #tripListComponent = new TripListView();
@@ -44,23 +43,21 @@ export default class EventsListPresenter {
       }
     };
 
-    const onOpenFormEdit = (evt) => {
-      evt.preventDefault();
+    const onOpenFormEdit = () => {
       replaceEventPointsListToEditForm();
       document.addEventListener('keydown', onEscKeyDown);
     };
 
-    const onCloseFormEdit = (evt) => {
-      evt.preventDefault();
+    const onCloseFormEdit = () => {
       replaceEditFormToEventPointsList();
       document.addEventListener('keydown', onEscKeyDown);
     };
 
-    eventPointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', onOpenFormEdit);
+    eventPointComponent.setOpenFormClickHandler(onOpenFormEdit);
 
-    formEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', onCloseFormEdit);
+    formEditComponent.setCloseFormClickHandler(onCloseFormEdit);
 
-    formEditComponent.element.addEventListener('submit', onCloseFormEdit);
+    formEditComponent.setFormSubmitHandler(onCloseFormEdit);
 
     render(eventPointComponent, this.#tripListComponent.element);
   };
@@ -69,9 +66,8 @@ export default class EventsListPresenter {
     render(this.#tripListComponent, this.#tripListContainer);
 
     if (this.#eventPointsList.length === 0) {
-      render(new NoEventPointView(), this.#tripListComponent.element);
-    } else {
-      this.#eventPointsList.forEach((event) => this.#renderEventPoints(event));
+      return render(new NoEventPointView(), this.#tripListComponent.element);
     }
+    return this.#eventPointsList.forEach((event) => this.#renderEventPoints(event));
   };
 }
